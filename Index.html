@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
+</head>
+<body>
+    <header>
+        <h1>Universidad Hispanoamericana</h1>
+        <h2>Carrera Medicina y Cirugía</h2>
+    </header>
+
+    <!-- Contenedor principal -->
+    <div id="main-content">
+        <!-- Texto en línea encima de los botones -->
+        <div id="texto-principal">
+            <span class="palabra" style="color: #3399ff;">Actividad</span>
+            <span class="palabra" style="color: #ffcc00;">Seroma</span>
+            <span class="palabra" style="color: #ff6666;">Abdominal</span>
+            <span class="palabra" style="color: #66ff66;">Grupo N4</span>
+        </div>
+
+        <!-- Menú de botones -->
+        <div id="menu">
+            <div class="menu-item" onclick="goTo('ball')" style="background-color: red;">Bola</div>
+            <div class="menu-item" onclick="goTo('hangman')" style="background-color: yellow; color: black;">Ahorcado</div>
+            <div class="menu-item" onclick="goTo('trivia')" style="background-color: #ccffcc; color: black;">Trivia</div>
+        </div>
+
+        <!-- Botones de Resultados y Dado en una nueva fila -->
+        <div id="menu-resultados">
+            <div class="menu-item" onclick="goTo('results')" style="background-color: #3399ff; color: white; margin-top: 15px;">Resultados</div>
+            <div class="menu-item" onclick="goTo('dado')" style="background-color: #0066cc; color: white; margin-top: 15px;">Dado</div> <!-- Botón de Dado -->
+        </div>
+		
+		<!-- Script para reiniciar el puntaje en localStorage al cargar la página -->
+		<script>
+			window.onload = function() {
+				localStorage.removeItem("puntajesTotales");
+				console.log("Puntaje reiniciado a cero.");
+			}
+		</script>
+
+        <!-- Sección de integrantes -->
+        <section id="integrantes">
+            <p>Integrantes:</p>
+            <ul>
+                <li>Angelí Calderón</li>
+                <li>Galileal Salazar</li>
+                <li>Génesis González</li>
+                <li>Mari Carmen Rojas</li>
+                <li>Antonio Ramírez</li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- Pie de página -->
+    <footer id="pie-de-pagina">
+        <p>Derechos Reservados, Grupo Anatomía Número 4</p>
+        <p>2024, Segundo Cuatrimestre</p>
+    </footer>
+
+    <script src="script.js"></script> <!-- Enlace al archivo JavaScript -->
+</body>
+</html>

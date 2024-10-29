@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanzamiento de Dado</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos básicos para el dado y resultados */
+        .dado-container {
+            text-align: center;
+            margin-top: 100px; /* Ajuste para bajar todo el contenido */
+            color: white;
+        }
+        .dado-gif {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+        }
+        .resultado {
+            font-size: 1.5em;
+            margin-top: 30px;
+        }
+        .boton-lanzar {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 20px;
+            background-color: #3399ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Botón de regreso al menú */
+        #volver-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #3399ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #volver-menu:hover {
+            background-color: #287bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="dado-container">
+        <h1>Lanzamiento de Dado para Definir el Orden</h1>
+        <img src="dado.gif" id="dado" class="dado-gif" alt="Dado girando">
+        
+        <!-- Agrupamos el botón y resultados en un div separado para bajarlos en conjunto -->
+        <div>
+            <button class="boton-lanzar" onclick="iniciarLanzamiento()">Lanzar Dado</button>
+            
+            <div id="resultados" class="resultado">
+                <p id="grupo1">Grupo 1: </p>
+                <p id="grupo2">Grupo 2: </p>
+                <p id="grupo3">Grupo 3: </p>
+                <p id="ordenFinal"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón para volver al menú principal -->
+    <button id="volver-menu" onclick="window.location.href='index.html'">Volver al Menú Principal</button>
+
+    <script>
+        let puntajes = { grupo1: 0, grupo2: 0, grupo3: 0 };
+        let lanzamientosRealizados = 0;
+        
+        function lanzarDado() {
+            return Math.floor(Math.random() * 6) + 1;
+        }
+
+        function iniciarLanzamiento() {
+            document.getElementById("ordenFinal").textContent = "";
+            puntajes = { grupo1: 0, grupo2: 0, grupo3: 0 };
+            lanzamientosRealizados = 0;
+            realizarLanzamiento("grupo1");
+        }
+
+        function realizarLanzamiento(grupo) {
+            document.getElementById("dado").src = "dado.gif";
+            setTimeout(() => {
+                const resultado = lanzarDado();
+                puntajes[grupo] = resultado;
+                document.getElementById(grupo).textContent = `${grupo.charAt(0).toUpperCase() + grupo.slice(1)}: ${resultado} puntos`;
+                lanzamientosRealizados++;
+
+                if (lanzamientosRealizados < 3) {
+                    realizarLanzamiento(`grupo${lanzamientosRealizados + 1}`);
+                } else {
+                    evaluarOrden();
+                }
+            }, 1000);
+        }
+
+        function evaluarOrden() {
+            const valores = Object.values(puntajes);
+            const grupos = Object.keys(puntajes);
+
+            const maxPuntaje = Math.max(...valores);
+            const empatados = grupos.filter(grupo => puntajes[grupo] === maxPuntaje);
+
+            if (empatados.length === 1) {
+                document.getElementById("ordenFinal").textContent = `${empatados[0].charAt(0).toUpperCase() + empatados[0].slice(1)} obtuvo el mayor puntaje con ${maxPuntaje} puntos y jugará primero.`;
+            } else {
+                document.getElementById("ordenFinal").textContent = `Empate entre ${empatados.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(" y ")} con ${maxPuntaje} puntos. Realizando desempate...`;
+                setTimeout(() => realizarDesempate(empatados), 1500);
+            }
+        }
+
+        function realizarDesempate(gruposEmpatados) {
+            const nuevosPuntajes = {};
+            let mejorGrupo = null;
+            let mejorPuntaje = 0;
+
+            gruposEmpatados.forEach(grupo => {
+                const resultado = lanzarDado();
+                nuevosPuntajes[grupo] = resultado;
+                document.getElementById(grupo).textContent = `${grupo.charAt(0).toUpperCase() + grupo.slice(1)} (desempate): ${resultado} puntos`;
+                
+                if (resultado > mejorPuntaje) {
+                    mejorGrupo = grupo;
+                    mejorPuntaje = resultado;
+                } else if (resultado === mejorPuntaje) {
+                    mejorGrupo = null;
+                }
+            });
+
+            if (mejorGrupo) {
+                document.getElementById("ordenFinal").textContent = `${mejorGrupo.charAt(0).toUpperCase() + mejorGrupo.slice(1)} ganó el desempate con ${mejorPuntaje} puntos y jugará primero.`;
+            } else {
+                document.getElementById("ordenFinal").textContent = `Empate en el desempate. Realizando otro desempate...`;
+                setTimeout(() => realizarDesempate(Object.keys(nuevosPuntajes)), 1500);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Bola</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="bola.css">
+</head>
+<body>
+    <h1 class="titulo-juego">Juego de Bola</h1>
+    
+    <div class="botones">
+        <button onclick="iniciarJuego()">Iniciar Juego</button>
+        <button onclick="volverMenu()" class="btn-menu">Volver al Menú Principal</button>
+    </div>
+
+    <div id="area-juego">
+        <!-- Las bolitas aparecerán en esta área -->
+    </div>
+
+    <!-- Contenedor para la pregunta y opciones -->
+    <div id="pregunta-container" style="display: none; text-align: center;">
+        <h2 id="pregunta-texto"></h2>
+        <div id="opciones" style="display: inline-block; text-align: center;"></div>
+    </div>
+
+    <script src="preguntas.js"></script>
+    <script src="script.js"></script>
+    <script src="bola.js"></script>
+</body>
+</html>

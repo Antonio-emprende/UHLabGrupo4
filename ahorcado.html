@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Ahorcado</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ahorcado-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        h1 {
+            margin-top: -30px;
+        }
+
+        .contenido-juego {
+            margin-top: 120px;
+        }
+
+        #dibujo-ahorcado {
+            margin: 20px 0;
+            height: 200px;
+        }
+
+        #palabra, #pista {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        #intentos {
+            color: red;
+            font-size: 1.2em;
+        }
+
+        .boton-letra {
+            margin: 5px;
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #btn-regreso {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: yellow;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #btn-regreso:hover {
+            background-color: #e6b800;
+        }
+
+        #teclado {
+            margin-top: 20px;
+        }
+
+        /* Hover y colores para los botones del teclado */
+        .boton-letra:hover {
+            background-color: #ccc;
+        }
+
+        /* Botones desactivados */
+        .boton-letra:disabled {
+            background-color: #888;
+            color: #444;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="ahorcado-container">
+        <h1>Juego del Ahorcado</h1>
+        
+        <div class="contenido-juego">
+            <!-- Canvas para el dibujo del ahorcado -->
+            <canvas id="dibujo-ahorcado" width="200" height="200"></canvas>
+            <div id="pista">Pregunta: <span id="pregunta"></span></div>
+            <div id="palabra">Palabra: <span id="guiones-palabra">_ _ _ _ _</span></div>
+            <div id="letras-usadas">Letras usadas: <span id="letras"></span></div>
+            <div id="intentos">Intentos restantes: <span id="intentosRestantes">6</span></div>
+            
+            <!-- Teclado virtual -->
+            <div id="teclado"></div>
+        </div>
+    </div>
+    
+    <button id="btn-regreso" onclick="window.location.href='index.html'">Devolver al Menú Principal</button>
+    
+    <script src="preguntas.js"></script>
+    <script src="ahorcado.js"></script>
+    <script>
+        // Generar el teclado virtual
+        const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const tecladoDiv = document.getElementById("teclado");
+
+        letras.split("").forEach(letra => {
+            const boton = document.createElement("button");
+            boton.textContent = letra;
+            boton.classList.add("boton-letra");
+            boton.onclick = () => intentarLetra(letra);
+            tecladoDiv.appendChild(boton);
+        });
+
+        // Dibujo del ahorcado
+        const canvas = document.getElementById("dibujo-ahorcado");
+        const ctx = canvas.getContext("2d");
+
+        function dibujarAhorcado(intentos) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "#333";
+
+            // Base y poste
+            if (intentos < 6) { ctx.strokeRect(10, 180, 80, 10); } // Base
+            if (intentos < 5) { ctx.beginPath(); ctx.moveTo(50, 180); ctx.lineTo(50, 20); ctx.stroke(); } // Poste vertical
+            if (intentos < 4) { ctx.lineTo(150, 20); ctx.stroke(); } // Poste superior
+            if (intentos < 3) { ctx.lineTo(150, 40); ctx.stroke(); } // Cuerda
+
+            // Cabeza
+            if (intentos < 2) { ctx.beginPath(); ctx.arc(150, 60, 20, 0, Math.PI * 2); ctx.stroke(); }
+
+            // Cuerpo, brazos y piernas
+            if (intentos < 1) {
+                ctx.beginPath();
+                ctx.moveTo(150, 80); ctx.lineTo(150, 130); // Cuerpo
+                ctx.moveTo(150, 90); ctx.lineTo(130, 110); // Brazo izquierdo
+                ctx.moveTo(150, 90); ctx.lineTo(170, 110); // Brazo derecho
+                ctx.moveTo(150, 130); ctx.lineTo(130, 160); // Pierna izquierda
+                ctx.moveTo(150, 130); ctx.lineTo(170, 160); // Pierna derecha
+                ctx.stroke();
+            }
+        }
+
+        // Actualizar el dibujo según intentos restantes
+        function intentarLetra(letra) {
+            // Aquí iría la lógica para verificar la letra y reducir los intentos si es incorrecta
+            // Para este ejemplo, simulamos que se pierde un intento
+            let intentosRestantes = parseInt(document.getElementById("intentosRestantes").textContent) - 1;
+            document.getElementById("intentosRestantes").textContent = intentosRestantes;
+            dibujarAhorcado(intentosRestantes);
+
+            // Desactivar el botón de la letra seleccionada
+            document.querySelectorAll(".boton-letra").forEach(boton => {
+                if (boton.textContent === letra) {
+                    boton.disabled = true;
+                }
+            });
+        }
+
+        // Inicializar el dibujo y los intentos
+        dibujarAhorcado(6);
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Finales</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #btn-regreso, #btn-reiniciar, #btn-actualizar {
+            position: fixed;
+            top: 20px;
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        #btn-regreso { right: 20px; background-color: #3399ff; }
+        #btn-reiniciar { left: 20px; background-color: #ff6600; }
+        #btn-actualizar {
+            background-color: #4CAF50;
+            position: relative;
+            top: 60px;
+            margin-top: 20px;
+            font-size: 16px;
+            display: block;
+            margin: 0 auto;
+        }
+        .resultado-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn-regreso" onclick="volverMenu()">Devolver al Menú Principal</button>
+    <button id="btn-reiniciar" onclick="reiniciarPuntaje()">Reiniciar Puntaje</button>
+
+    <div class="resultado-container">
+        <h1>Resultados Finales</h1>
+        <div id="resultados">
+            <p id="grupo1">Grupo 1: 0 puntos</p>
+            <p id="grupo2">Grupo 2: 0 puntos</p>
+            <p id="grupo3">Grupo 3: 0 puntos</p>
+        </div>
+        <p id="mensaje-final"></p>
+        <p>Puntos Totales: <span id="puntosTotales">0</span></p>
+
+        <button id="btn-actualizar" onclick="cargarResultados()">Actualizar Puntaje</button>
+    </div>
+
+    <script>
+        function cargarResultados() {
+            const puntosGrupo1 = parseInt(localStorage.getItem("grupo1")) || 0;
+            const puntosGrupo2 = parseInt(localStorage.getItem("grupo2")) || 0;
+            const puntosGrupo3 = parseInt(localStorage.getItem("grupo3")) || 0;
+
+            document.getElementById("grupo1").textContent = `Grupo 1: ${puntosGrupo1} puntos`;
+            document.getElementById("grupo2").textContent = `Grupo 2: ${puntosGrupo2} puntos`;
+            document.getElementById("grupo3").textContent = `Grupo 3: ${puntosGrupo3} puntos`;
+
+            const puntosTotales = puntosGrupo1 + puntosGrupo2 + puntosGrupo3;
+            document.getElementById("puntosTotales").textContent = puntosTotales;
+
+            let mensajeFinal = '';
+            if (puntosGrupo1 === puntosGrupo2 && puntosGrupo2 === puntosGrupo3) {
+                mensajeFinal = `Todos los grupos quedaron empatados con ${puntosGrupo1} puntos.`;
+            } else if (puntosGrupo1 === puntosGrupo2 && puntosGrupo1 > puntosGrupo3) {
+                mensajeFinal = `El Grupo 1 y el Grupo 2 quedaron empatados con ${puntosGrupo1} puntos.`;
+            } else if (puntosGrupo1 === puntosGrupo3 && puntosGrupo1 > puntosGrupo2) {
+                mensajeFinal = `El Grupo 1 y el Grupo 3 quedaron empatados con ${puntosGrupo1} puntos.`;
+            } else if (puntosGrupo2 === puntosGrupo3 && puntosGrupo2 > puntosGrupo1) {
+                mensajeFinal = `El Grupo 2 y el Grupo 3 quedaron empatados con ${puntosGrupo2} puntos.`;
+            } else if (puntosGrupo1 > puntosGrupo2 && puntosGrupo1 > puntosGrupo3) {
+                mensajeFinal = `El Grupo 1 obtuvo la mayor cantidad de puntos con ${puntosGrupo1} puntos.`;
+            } else if (puntosGrupo2 > puntosGrupo1 && puntosGrupo2 > puntosGrupo3) {
+                mensajeFinal = `El Grupo 2 obtuvo la mayor cantidad de puntos con ${puntosGrupo2} puntos.`;
+            } else if (puntosGrupo3 > puntosGrupo1 && puntosGrupo3 > puntosGrupo2) {
+                mensajeFinal = `El Grupo 3 obtuvo la mayor cantidad de puntos con ${puntosGrupo3} puntos.`;
+            }
+
+            document.getElementById("mensaje-final").textContent = mensajeFinal;
+        }
+
+        function volverMenu() {
+            window.location.href = "index.html";
+        }
+
+        function reiniciarPuntaje() {
+            localStorage.setItem("grupo1", 0);
+            localStorage.setItem("grupo2", 0);
+            localStorage.setItem("grupo3", 0);
+            alert("Puntaje reiniciado a cero.");
+            cargarResultados();
+        }
+
+        cargarResultados(); // Cargar resultados al abrir la página
+    </script>
+</body>
+</html>

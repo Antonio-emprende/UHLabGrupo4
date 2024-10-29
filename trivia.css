@@ -1,0 +1,114 @@
+/* Fondo negro para toda la página */
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el título */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2em;
+}
+
+/* Botón de regreso al menú principal */
+.boton-regreso {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 5px 10px;
+    background-color: #ccffcc;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.boton-regreso:hover {
+    background-color: #99cc99;
+}
+
+/* Contenedor de cada grupo */
+.grupo-container {
+    display: inline-block;
+    width: 30%;
+    margin: 10px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: top;
+    height: 500px; /* Altura extendida para acomodar preguntas */
+}
+
+/* Botón para generar preguntas */
+.generar-pregunta-btn {
+    width: 95%;
+    padding: 15px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* Colores específicos para cada grupo */
+.generar-pregunta-btn.grupo1 { background-color: skyblue; color: black; }
+.generar-pregunta-btn.grupo2 { background-color: yellow; color: black; }
+.generar-pregunta-btn.grupo3 { background-color: lightgreen; color: black; }
+
+/* Hover effect para botones */
+.generar-pregunta-btn:hover {
+    opacity: 0.8;
+}
+
+/* Contenedor para mostrar las preguntas y opciones */
+.pregunta-contenedor {
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* Estilo para los botones de las opciones de respuesta */
+.opcion-btn {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 1em;
+    background-color: #666;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+}
+
+.opcion-btn:hover {
+    background-color: #888;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 1024px) {
+    .grupo-container {
+        width: 45%;
+        margin: 10px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .grupo-container {
+        width: 80%;
+    }
+
+    .generar-pregunta-btn {
+        font-size: 1.3em;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+}

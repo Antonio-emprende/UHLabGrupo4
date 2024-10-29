@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Trivia</title>
+    <link rel="stylesheet" href="trivia.css">
+</head>
+<body>
+    <!-- Botón de regreso al menú principal -->
+    <button class="boton-regreso" onclick="window.location.href='index.html'">Devolver al Menú Principal</button>
+    
+    <h1>Juego de Trivia</h1>
+    <p id="puntaje">Puntaje: 0</p> <!-- Display para el puntaje acumulado -->
+
+    <!-- Contenedor de preguntas divididas en grupos -->
+    <div class="grupo-container" id="grupo1">
+        <h2>Grupo 1</h2>
+        <button class="generar-pregunta-btn grupo1" onclick="generarPregunta(1)">Generar Pregunta</button>
+        <div id="pregunta-contenedor-1" class="pregunta-contenedor"></div>
+    </div>
+
+    <div class="grupo-container" id="grupo2">
+        <h2>Grupo 2</h2>
+        <button class="generar-pregunta-btn grupo2" onclick="generarPregunta(2)">Generar Pregunta</button>
+        <div id="pregunta-contenedor-2" class="pregunta-contenedor"></div>
+    </div>
+
+    <div class="grupo-container" id="grupo3">
+        <h2>Grupo 3</h2>
+        <button class="generar-pregunta-btn grupo3" onclick="generarPregunta(3)">Generar Pregunta</button>
+        <div id="pregunta-contenedor-3" class="pregunta-contenedor"></div>
+    </div>
+
+    <script src="preguntas.js"></script> <!-- Archivo de preguntas -->
+    <script src="trivia.js"></script> <!-- Archivo JavaScript principal -->
+</body>
+</html>
